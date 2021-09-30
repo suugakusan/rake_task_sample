@@ -18,7 +18,11 @@ namespace :import_csv do
     end
     puts "インポート処理を開始"
     begin
-      User.create!(list)
+      User.transaction do
+        # 例外が発生する可能性のある処理
+        User.create!(list)
+      end
+      # 正常に動作した場合の処理
       puts "インポート完了!!"
     rescue StandardError => e
       # 例外が発生した場合の処理
